@@ -8,11 +8,11 @@ Yazi configuration for the **Imperator** ricing — a terminal file manager styl
 ---
 ### Showcase
 
-![Yazi Config](impr-yazi/screenshots/image1.png)
+![Yazi Config](screenshots/image1.png)
 
-![Code Previsualization](impr-yazi/screenshots/image2.png)
+![Code Previsualization](screenshots/image2.png)
 
-![PDF Previsualization](impr-yazi/screenshots/image3.png)
+![PDF Previsualization](screenshots/image3.png)
 
 ---
 
