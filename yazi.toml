@@ -1,0 +1,96 @@
+# yazi.toml — behavior configuration for Yazi
+# Part of Imperator-dotfiles · https://github.com/lordziegler/Imperator-dotfiles
+
+[manager]
+ratio          = [1, 3, 4]
+sort_by        = "alphabetical"
+sort_sensitive = false
+sort_reverse   = false
+sort_dir_first = true
+show_hidden    = false
+show_symlink   = true
+scrolloff      = 5
+
+[preview]
+wrap          = "no"
+tab_size      = 2
+max_width     = 600
+max_height    = 900
+# Requires the tmTheme to be at this path after installation.
+# If symlinking the whole yazi/ dir, this resolves automatically.
+syntect_theme = "~/.config/yazi/Imperator.tmTheme"
+
+# ── Openers ──────────────────────────────────────────────────────────────────
+[opener]
+edit = [
+  { run = 'nvim "$@"', block = true, desc = "nvim" },
+]
+# Positron is not in PATH on most systems.
+# Update this path after install, or create a wrapper at /usr/local/bin/positron.
+# Typical locations: /usr/share/positron/positron  or  /opt/positron/positron
+positron = [
+  { run = '/usr/share/positron/positron "$@"', desc = "Positron" },
+]
+office = [
+  { run = 'libreoffice "$@"', desc = "LibreOffice" },
+]
+open = [
+  { run = 'xdg-open "$@"', desc = "Open" },
+]
+play = [
+  { run = 'mpv "$@"', desc = "mpv" },
+]
+view_image = [
+  { run = 'gwenview "$@"', desc = "Gwenview" },
+]
+view_pdf = [
+  { run = 'okular "$@"', desc = "Okular" },
+]
+
+# ── File association rules (first match wins) ─────────────────────────────────
+[open]
+rules = [
+  # Quarto / RMarkdown → Positron (url glob, before text/* catch-all)
+  { url = "*.qmd",            use = "positron" },
+  { url = "*.{rmd,Rmd,RMD}", use = "positron" },
+
+  # Office → LibreOffice (url glob + mime for variable detection coverage)
+  { url = "*.{doc,docx,xls,xlsx,ppt,pptx,odt,ods,odp,odg}", use = "office" },
+  { mime = "application/msword",                               use = "office" },
+  { mime = "application/vnd.ms-*",                            use = "office" },
+  { mime = "application/vnd.oasis.opendocument.*",            use = "office" },
+  { mime = "application/vnd.openxmlformats-officedocument.*", use = "office" },
+
+  # Text and code → nvim
+  { mime = "text/*",                    use = "edit" },
+  { mime = "application/json",          use = "edit" },
+  { mime = "application/javascript",    use = "edit" },
+  { mime = "application/x-javascript",  use = "edit" },
+  { mime = "application/x-shellscript", use = "edit" },
+  { mime = "application/x-python",      use = "edit" },
+  { mime = "application/x-ruby",        use = "edit" },
+  { mime = "application/x-perl",        use = "edit" },
+  { mime = "application/x-lua",         use = "edit" },
+  { mime = "application/x-sh",          use = "edit" },
+  { mime = "application/toml",          use = "edit" },
+  { mime = "application/xml",           use = "edit" },
+  { mime = "application/x-yaml",        use = "edit" },
+
+  # Images → Gwenview
+  { mime = "image/*", use = "view_image" },
+
+  # Video + Audio → mpv
+  { mime = "video/*", use = "play" },
+  { mime = "audio/*", use = "play" },
+
+  # PDF + epub → Okular
+  { mime = "application/pdf",       use = "view_pdf" },
+  { mime = "application/epub+zip",  use = "view_pdf" },
+
+  # Archives → xdg-open
+  { mime = "application/{zip,rar,7z*,tar,gzip,xz,zstd,bzip*,lzma,compress,archive,cpio}", use = "open" },
+
+  # Fallback application/* → nvim
+  { mime = "application/*", use = "edit" },
+  { mime = "*",             use = "open" },
+]

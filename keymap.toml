@@ -1,0 +1,23 @@
+# keymap.toml — custom keybindings for Yazi
+# Part of Imperator-dotfiles · https://github.com/lordziegler/Imperator-dotfiles
+#
+# Uses prepend_keymap so all Yazi defaults are preserved.
+# Only keys that differ from defaults are listed here.
+#
+# Key reference:
+#   f        → jump-to-char   (jump to next file starting with typed char)
+#   F        → smart-filter   (live filter without leaving normal mode)
+#   =        → chmod          (interactive permission picker)
+#   O l      → force open with LibreOffice
+#   O p      → force open with Positron
+#   O n      → force open with nvim
+
+[manager]
+prepend_keymap = [
+  { on = "f",        run = "plugin jump-to-char",  desc = "Jump to char" },
+  { on = "F",        run = "plugin smart-filter",  desc = "Smart filter" },
+  { on = "=",        run = "plugin chmod",          desc = "Chmod" },
+  { on = ["O", "l"], run = "open --with office",   desc = "Open with LibreOffice" },
+  { on = ["O", "p"], run = "open --with positron", desc = "Open with Positron" },
+  { on = ["O", "n"], run = "open --with edit",     desc = "Open with nvim" },
+]
